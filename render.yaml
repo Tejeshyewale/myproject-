@@ -4,6 +4,10 @@ services:
     env: python
     buildCommand: |
       pip install -r requirements.txt
+      cd frontend
+      npm install
+      npm run build
+      cd ..
       python manage.py collectstatic --no-input
       python manage.py migrate
     startCommand: gunicorn mysite.wsgi:application
@@ -16,7 +20,6 @@ services:
         generateValue: true
       - key: DEBUG
         value: 'False'
-    staticPublishPath: backend/build
 
 databases:
   - name: django-db
